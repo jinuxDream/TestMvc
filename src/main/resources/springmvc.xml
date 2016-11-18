@@ -3,16 +3,35 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-	http://www.springframework.org/schema/context
-	http://www.springframework.org/schema/context/spring-context-3.2.xsd
-	http://www.springframework.org/schema/mvc
-	http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- 说明：增加本段配置是为了解决增加<mvc:annotation-driven/>配置后的编码问题，要放在<mvc:annotation-driven/>之前 -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>text/plain;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
 
     <!-- 自动扫描 加载controller -->
     <context:component-scan base-package="com.jyp" />
-
     <mvc:annotation-driven />
 
     <!-- 配置js，css等静态文件直接映射到对应的文件夹，不被DispatcherServlet处理 -->
@@ -22,10 +41,8 @@
     <!--<bean id="springContextUtil" class="com.wescr.utils.SpringContextUtil" />-->
 
     <!-- jsp页面解析器，当Controller返回XXX字符串时，先通过拦截器，然后该类就会在/WEB-INF/views/目录下，查找XXX.jsp文件 -->
-    <bean
-            class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/views/"></property>
-
         <property name="suffix" value=".jsp"></property>
     </bean>
 
@@ -45,8 +62,7 @@
         <property name="exceptionMappings">
             <props>
                 <!-- 遇到MaxUploadSizeExceededException异常时，自动跳转到/WEB-INF/jsp/error_fileupload.jsp页面 -->
-                <prop
-                        key="org.springframework.web.multipart.MaxUploadSizeExceededException">error</prop>
+                <prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">error</prop>
             </props>
         </property>
     </bean>
