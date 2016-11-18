@@ -7,6 +7,39 @@
     <groupId>groupId</groupId>
     <artifactId>TestMvc</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <name>SpringMVCTest</name>
 
+    <properties>
+        <spring.version>4.0.2.RELEASE</spring.version>
+        <junit.version>4.11</junit.version>
+        <druid.version>0.2.11</druid.version>
+        <commons-fileupload.version>1.2.2</commons-fileupload.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>${druid.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${commons-fileupload.version}</version>
+        </dependency>
+
+    </dependencies>
     
 </project>
